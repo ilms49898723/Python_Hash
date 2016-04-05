@@ -2,6 +2,7 @@
 
 import os.path
 import hashlib
+import zlib
 import getpass
 
 
@@ -38,10 +39,19 @@ def sha256hash(inputfile):
         print("sha256: " + sha256.hexdigest())
 
 
+# hash for crc32
+def crc32hash(inputfile):
+    with open(inputfile, 'rb') as fin:
+        csum = 0
+        for chunk in iter(lambda: fin.read(4096), b''):
+            csum = zlib.crc32(chunk, csum)
+        print(" crc32: " + hex(csum & 0xFFFFFFFF))
+
+
 # main program
 print("Current Working Directory: " + os.getcwd())
 filename = str(input('Enter [path]filename: '))
-hashMode = str(input('Enter Hash Mode (all/md5/sha1/sha256): '))
+hashMode = str(input('Enter Hash Mode (all/md5/sha1/sha256/crc32): '))
 print()
 
 if not os.path.isfile(filename):
@@ -58,6 +68,8 @@ elif hashMode == "sha1":
     sha1hash(filename)
 elif hashMode == "sha256":
     sha256hash(filename)
+elif hashMode == "crc32":
+    crc32hash(filename)
 else:
-    print("Hash Mode: \"" + hashMode + "\" is not defined. Note: It's case sensitive.")
+    print("Error: Hash Mode \"" + hashMode + "\" is not defined. Note: It's case sensitive.")
 pause()
