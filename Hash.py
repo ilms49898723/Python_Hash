@@ -2,15 +2,8 @@
 
 import os.path
 import argparse
-import getpass
 import hashlib
 import zlib
-
-
-# pause, press ENTER to continue
-def pause():
-    print()
-    getpass.getpass("Press Enter to continue...")
 
 
 # hash for md5
@@ -60,7 +53,8 @@ hashMode = arguments.hashMode
 print()
 
 if not os.path.isfile(filename):
-    print(filename + ": File not exists")
+    print(filename + ": No such file or directory")
+    print()
     exit()
 
 print("  File: " + os.path.basename(filename))
