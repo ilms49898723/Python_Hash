@@ -1,9 +1,10 @@
 #! python3
 
 import os.path
+import argparse
+import getpass
 import hashlib
 import zlib
-import getpass
 
 
 # pause, press ENTER to continue
@@ -49,19 +50,28 @@ def crc32hash(inputfile):
 
 
 # main program
-print("Current Working Directory: " + os.getcwd())
-filename = str(input('Enter [path]filename: '))
-hashMode = str(input('Enter Hash Mode (all/md5/sha1/sha256/crc32): '))
+parser = argparse.ArgumentParser(description='Calculate Hash Value of the File')
+parser.add_argument('filename', type=str, help='file to hash')
+parser.add_argument('-m', '--mode', dest='hashMode', type=str, choices=['all', 'md5', 'sha1', 'sha256', 'crc32'],
+                    default='all', help='hash function')
+arguments = parser.parse_args()
+filename = arguments.filename
+hashMode = arguments.hashMode
 print()
 
 if not os.path.isfile(filename):
-    print("Error: File \"" + filename + "\" not exists")
+    print(filename + ": File not exists")
     exit()
+
+print("  File: " + os.path.basename(filename))
+print("    At: " + os.path.dirname(os.path.abspath(filename)))
+print()
 
 if hashMode == "all":
     md5hash(filename)
     sha1hash(filename)
     sha256hash(filename)
+    crc32hash(filename)
 elif hashMode == "md5":
     md5hash(filename)
 elif hashMode == "sha1":
@@ -70,6 +80,3 @@ elif hashMode == "sha256":
     sha256hash(filename)
 elif hashMode == "crc32":
     crc32hash(filename)
-else:
-    print("Error: Hash Mode \"" + hashMode + "\" is not defined. Note: It's case sensitive.")
-pause()
