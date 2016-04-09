@@ -65,6 +65,7 @@ if not os.path.isfile(filename):
 
 print("  File: " + os.path.basename(filename))
 print("    At: " + os.path.dirname(os.path.abspath(filename)))
+print("  Size: " + os.stat(filename).st_size)
 print()
 
 if hashMode == "all":
@@ -80,3 +81,5 @@ elif hashMode == "sha256":
     sha256hash(filename)
 elif hashMode == "crc32":
     crc32hash(filename)
+
+print()
