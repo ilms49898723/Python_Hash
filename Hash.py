@@ -52,7 +52,7 @@ def crc32hash(inputfile):
 # main program
 parser = argparse.ArgumentParser(description='Calculate Hash Value of the File')
 parser.add_argument('filename', type=str, help='file to hash')
-parser.add_argument('-m', '--mode', dest='hashMode', type=str, choices=['all', 'md5', 'sha1', 'sha256', 'crc32'],
+parser.add_argument('-m', dest='hashMode', type=str, choices=['all', 'md5', 'sha1', 'sha256', 'crc32'],
                     default='all', help='hash function')
 arguments = parser.parse_args()
 filename = arguments.filename
